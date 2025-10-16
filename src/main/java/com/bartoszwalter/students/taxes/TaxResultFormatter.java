@@ -18,7 +18,7 @@ public class TaxResultFormatter {
      * @param result the tax result to display
      * @param contractType the contract type
      */
-    public void displayResult(TaxResult result, ContractType contractType) {
+    public void displayResult(final TaxResult result, final ContractType contractType) {
         LOGGER.info(() -> String.format("Contract Type: %s", contractType.getDisplayName()));
 
         LOGGER.info(() -> String.format("Gross Income: %s",
@@ -38,7 +38,7 @@ public class TaxResultFormatter {
      *
      * @param contributions the social contributions
      */
-    private void displaySocialContributions(SocialContributions contributions) {
+    private void displaySocialContributions(final SocialContributions contributions) {
         LOGGER.info(() -> String.format("Social security tax: %s",
             formatDecimal(contributions.getSocialSecurity())));
 
@@ -54,7 +54,7 @@ public class TaxResultFormatter {
      *
      * @param result the tax result
      */
-    private void displayHealthInsurance(TaxResult result) {
+    private void displayHealthInsurance(final TaxResult result) {
         HealthInsurance health = result.healthInsurance();
 
         LOGGER.info(() -> String.format("Income basis for health social security: %s",
@@ -70,7 +70,7 @@ public class TaxResultFormatter {
      *
      * @param result the tax result
      */
-    private void displayTaxCalculation(TaxResult result) {
+    private void displayTaxCalculation(final TaxResult result) {
         LOGGER.info(() -> String.format("Tax deductible expenses: %s",
             formatDecimal(result.taxDeductibleExpenses())));
 
@@ -103,7 +103,7 @@ public class TaxResultFormatter {
      * @param value the value to format
      * @return formatted string
      */
-    private String formatDecimal(BigDecimal value) {
+    private String formatDecimal(final BigDecimal value) {
         DecimalFormat formatter = new DecimalFormat("#.00");
         return formatter.format(value);
     }
@@ -114,7 +114,7 @@ public class TaxResultFormatter {
      * @param value the value to format
      * @return formatted string
      */
-    private String formatInteger(BigDecimal value) {
+    private String formatInteger(final BigDecimal value) {
         DecimalFormat formatter = new DecimalFormat("#");
         return formatter.format(value);
     }

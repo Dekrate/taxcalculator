@@ -22,7 +22,7 @@ public class TaxInputReader {
      *
      * @param inputStream the input stream to read from
      */
-    public TaxInputReader(InputStream inputStream) {
+    public TaxInputReader(final InputStream inputStream) {
         this.reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
     }
 

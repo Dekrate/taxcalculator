@@ -1,11 +1,14 @@
 package com.bartoszwalter.students.taxes;
 
+import lombok.Getter;
+
 import java.math.BigDecimal;
 
 /**
  * Represents health insurance contributions.
  */
-public class HealthInsurance {
+@Getter
+final class HealthInsurance {
 
     private final BigDecimal fullRate;
     private final BigDecimal deductibleRate;
@@ -16,7 +19,7 @@ public class HealthInsurance {
      * @param fullRate the full health insurance rate
      * @param deductibleRate the tax-deductible health insurance rate
      */
-    private HealthInsurance(BigDecimal fullRate, BigDecimal deductibleRate) {
+    private HealthInsurance(final BigDecimal fullRate, final BigDecimal deductibleRate) {
         this.fullRate = fullRate;
         this.deductibleRate = deductibleRate;
     }
@@ -41,11 +44,4 @@ public class HealthInsurance {
         return new HealthInsurance(fullRate, deductibleRate);
     }
 
-    public BigDecimal getFullRate() {
-        return fullRate;
-    }
-
-    public BigDecimal getDeductibleRate() {
-        return deductibleRate;
-    }
 }

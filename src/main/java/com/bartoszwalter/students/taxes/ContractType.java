@@ -1,5 +1,8 @@
 package com.bartoszwalter.students.taxes;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -7,27 +10,30 @@ import java.util.stream.Stream;
 /**
  * Represents the type of employment contract.
  */
+@Getter
+@AllArgsConstructor
 public enum ContractType {
     /**
-     * Employment contract (Umowa o pracę).
+     * Employment contract
      */
     EMPLOYMENT('E', "EMPLOYMENT"),
 
     /**
-     * Civil contract (Umowa cywilnoprawna).
+     * Civil contract
      */
     CIVIL('C', "CIVIL");
 
     private static final Map<Character, ContractType> CODE_MAP =
             Stream.of(values()).collect(Collectors.toMap(type -> type.code, type -> type));
 
-    private final char code;
-    private final String displayName;
-
-    ContractType(char code, String displayName) {
-        this.code = code;
-        this.displayName = displayName;
-    }
+	/**
+	 * Character code for a contract type.
+	 */
+	private final char code;
+	/**
+	 * Display name for this contract type.
+	 */
+	private final String displayName;
 
     /**
      * Returns the contract type based on the character code.
@@ -44,21 +50,4 @@ public enum ContractType {
         return type;
     }
 
-    /**
-     * Gets the character code for this contract type.
-     *
-     * @return the character code
-     */
-    public char getCode() {
-        return code;
-    }
-
-    /**
-     * Gets the display name for this contract type.
-     *
-     * @return the display name
-     */
-    public String getDisplayName() {
-        return displayName;
-    }
 }
