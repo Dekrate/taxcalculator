@@ -15,8 +15,13 @@ import java.math.BigDecimal;
  * @param finalTax Final tax of the person.
  * @param netIncome Net income of the person.
  */
-public record TaxResult(BigDecimal grossIncome, SocialContributions socialContributions,
-                        HealthInsurance healthInsurance, BigDecimal taxDeductibleExpenses,
-                        BigDecimal taxableIncome, BigDecimal advanceTax, BigDecimal taxFreeIncome,
-                        BigDecimal finalTax, BigDecimal netIncome) {
+public record TaxResult(BigDecimal grossIncome,
+                        SocialContributions socialContributions,
+                        HealthInsurance healthInsurance,
+                        BigDecimal taxDeductibleExpenses,
+                        BigDecimal taxableIncome,
+                        BigDecimal advanceTax,
+                        BigDecimal taxFreeIncome,
+                        BigDecimal finalTax,
+                        BigDecimal netIncome) {
 }

@@ -10,11 +10,20 @@ import java.util.logging.Logger;
 
 /**
  * Handles reading user input for tax calculations.
- * Separates input logic from calculation logic (Single Responsibility Principle).
+ * Separates input logic from calculation logic
+ * (Single Responsibility Principle).
  */
 public class TaxInputReader {
 
-    private static final Logger LOGGER = Logger.getLogger(TaxInputReader.class.getName());
+    /**
+     * Logger instance for this class.
+     */
+    private static final Logger LOGGER =
+            Logger.getLogger(TaxInputReader.class.getName());
+
+    /**
+     * BufferedReader for reading input.
+     */
     private final BufferedReader reader;
 
     /**
@@ -23,7 +32,9 @@ public class TaxInputReader {
      * @param inputStream the input stream to read from
      */
     public TaxInputReader(final InputStream inputStream) {
-        this.reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+        this.reader = new BufferedReader(
+                new InputStreamReader(inputStream,
+                        StandardCharsets.UTF_8));
     }
 
     /**
@@ -44,11 +55,13 @@ public class TaxInputReader {
         try {
             BigDecimal income = new BigDecimal(input.trim());
             if (income.compareTo(BigDecimal.ZERO) < 0) {
-                throw new IllegalArgumentException("Income cannot be negative");
+                throw new IllegalArgumentException(
+                        "Income cannot be negative");
             }
             return income;
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Invalid income format: " + input, e);
+            throw new IllegalArgumentException(
+                    "Invalid income format: " + input, e);
         }
     }
 
@@ -60,11 +73,13 @@ public class TaxInputReader {
      * @throws IllegalArgumentException if the input is not valid
      */
     public ContractType readContractType() throws IOException {
-        LOGGER.info("Contract Type: (E)mployment, (C)ivil: ");
+        LOGGER.info(
+                "Contract Type: (E)mployment, (C)ivil: ");
         String input = reader.readLine();
 
         if (input == null || input.trim().isEmpty()) {
-            throw new IllegalArgumentException("Contract type cannot be empty");
+            throw new IllegalArgumentException(
+                    "Contract type cannot be empty");
         }
 
         char code = Character.toUpperCase(input.trim().charAt(0));

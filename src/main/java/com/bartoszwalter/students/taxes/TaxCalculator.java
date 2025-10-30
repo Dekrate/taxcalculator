@@ -13,9 +13,20 @@ import java.util.logging.Logger;
  */
 public class TaxCalculator {
 
-    private static final Logger LOGGER = Logger.getLogger(TaxCalculator.class.getName());
+    /**
+     * Logger instance for this class.
+     */
+    private static final Logger LOGGER =
+            Logger.getLogger(TaxCalculator.class.getName());
 
+    /**
+     * Map of contract types to their calculation strategies.
+     */
     private final Map<ContractType, TaxCalculationStrategy> strategies;
+
+    /**
+     * Formatter for displaying tax calculation results.
+     */
     private final TaxResultFormatter formatter;
 
     /**
@@ -23,8 +34,10 @@ public class TaxCalculator {
      */
     public TaxCalculator() {
         this.strategies = new EnumMap<>(ContractType.class);
-        this.strategies.put(ContractType.EMPLOYMENT, new EmploymentContractStrategy());
-        this.strategies.put(ContractType.CIVIL, new CivilContractStrategy());
+        this.strategies.put(ContractType.EMPLOYMENT,
+                new EmploymentContractStrategy());
+        this.strategies.put(ContractType.CIVIL,
+                new CivilContractStrategy());
         this.formatter = new TaxResultFormatter();
     }
 
@@ -34,17 +47,22 @@ public class TaxCalculator {
      * @param grossIncome the gross income amount
      * @param contractType the type of contract
      * @return the tax calculation result
-     * @throws IllegalArgumentException if contract type is not supported or grossIncome is invalid
+     * @throws IllegalArgumentException if contract type is not supported
+     *                                  or grossIncome is invalid
      */
-    public TaxResult calculateTax(BigDecimal grossIncome, ContractType contractType) {
-        if (grossIncome == null || grossIncome.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Gross income must be non-negative");
+    public TaxResult calculateTax(final BigDecimal grossIncome,
+                                   final ContractType contractType) {
+        if (grossIncome == null
+                || grossIncome.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException(
+                    "Gross income must be non-negative");
         }
 
         TaxCalculationStrategy strategy = strategies.get(contractType);
 
         if (strategy == null) {
-            throw new IllegalArgumentException("Unsupported contract type: " + contractType);
+            throw new IllegalArgumentException(
+                    "Unsupported contract type: " + contractType);
         }
 
         return strategy.calculateTax(grossIncome);
@@ -75,13 +93,14 @@ public class TaxCalculator {
      *
      * @param args command line arguments (not used)
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         TaxCalculator calculator = new TaxCalculator();
 
         try {
             calculator.processUserInput();
         } catch (IllegalArgumentException e) {
-            LOGGER.log(Level.WARNING, "Invalid input: {0}", e.getMessage());
+            LOGGER.log(Level.WARNING, "Invalid input: {0}",
+                    e.getMessage());
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error reading input", e);
         }

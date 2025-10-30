@@ -10,18 +10,26 @@ import java.math.BigDecimal;
 @Getter
 final class HealthInsurance {
 
+    /**
+     * The full health insurance rate.
+     */
     private final BigDecimal fullRate;
+
+    /**
+     * The tax-deductible health insurance rate.
+     */
     private final BigDecimal deductibleRate;
 
     /**
      * Creates health insurance with specified values.
      *
-     * @param fullRate the full health insurance rate
-     * @param deductibleRate the tax-deductible health insurance rate
+     * @param fullRateValue the full health insurance rate
+     * @param deductibleRateValue the tax-deductible health insurance rate
      */
-    private HealthInsurance(final BigDecimal fullRate, final BigDecimal deductibleRate) {
-        this.fullRate = fullRate;
-        this.deductibleRate = deductibleRate;
+    private HealthInsurance(final BigDecimal fullRateValue,
+                            final BigDecimal deductibleRateValue) {
+        this.fullRate = fullRateValue;
+        this.deductibleRate = deductibleRateValue;
     }
 
     /**
@@ -31,17 +39,26 @@ final class HealthInsurance {
      * @return calculated health insurance
      * @throws IllegalArgumentException if incomeBasis is null or negative
      */
-    public static HealthInsurance calculate(BigDecimal incomeBasis) {
-        if (incomeBasis == null || incomeBasis.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Income basis must be non-negative");
+    public static HealthInsurance calculate(final BigDecimal incomeBasis) {
+        if (incomeBasis == null
+                || incomeBasis.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException(
+                    "Income basis must be non-negative");
         }
 
-        BigDecimal fullRate = incomeBasis.multiply(TaxRates.HEALTH_INSURANCE_FULL_RATE)
-            .divide(TaxRates.PERCENTAGE_DIVISOR, TaxConstants.CURRENCY_SCALE, TaxConstants.CURRENCY_ROUNDING_MODE);
-        BigDecimal deductibleRate = incomeBasis.multiply(TaxRates.HEALTH_INSURANCE_DEDUCTIBLE_RATE)
-            .divide(TaxRates.PERCENTAGE_DIVISOR, TaxConstants.CURRENCY_SCALE, TaxConstants.CURRENCY_ROUNDING_MODE);
+        BigDecimal fullRateCalculated = incomeBasis
+                .multiply(TaxRates.HEALTH_INSURANCE_FULL_RATE)
+                .divide(TaxRates.PERCENTAGE_DIVISOR,
+                        TaxConstants.CURRENCY_SCALE,
+                        TaxConstants.CURRENCY_ROUNDING_MODE);
+        BigDecimal deductibleRateCalculated = incomeBasis
+                .multiply(TaxRates.HEALTH_INSURANCE_DEDUCTIBLE_RATE)
+                .divide(TaxRates.PERCENTAGE_DIVISOR,
+                        TaxConstants.CURRENCY_SCALE,
+                        TaxConstants.CURRENCY_ROUNDING_MODE);
 
-        return new HealthInsurance(fullRate, deductibleRate);
+        return new HealthInsurance(fullRateCalculated,
+                deductibleRateCalculated);
     }
 
 }

@@ -11,63 +11,93 @@ import java.math.BigDecimal;
 @Getter
 final class SocialContributions {
 
-	private final BigDecimal socialSecurity;
-	private final BigDecimal healthSocialSecurity;
-	private final BigDecimal sicknessSocialSecurity;
+    /**
+     * The social security contribution.
+     */
+    private final BigDecimal socialSecurity;
 
-	/**
-	 * Creates social contributions with specified values.
-	 *
-	 * @param socialSecurity         the social security contribution
-	 * @param healthSocialSecurity   the health social security contribution
-	 * @param sicknessSocialSecurity the sickness social security contribution
-	 */
-	private SocialContributions(final BigDecimal socialSecurity, final BigDecimal healthSocialSecurity,
-	                            final BigDecimal sicknessSocialSecurity) {
-		this.socialSecurity = socialSecurity;
-		this.healthSocialSecurity = healthSocialSecurity;
-		this.sicknessSocialSecurity = sicknessSocialSecurity;
-	}
+    /**
+     * The health social security contribution.
+     */
+    private final BigDecimal healthSocialSecurity;
 
-	/**
-	 * Calculates social contributions from gross income.
-	 *
-	 * @param grossIncome the gross income
-	 * @return calculated social contributions
-	 * @throws IllegalArgumentException if grossIncome is null or negative
-	 */
-	public static SocialContributions calculate(final BigDecimal grossIncome) {
-		if (grossIncome == null || grossIncome.compareTo(BigDecimal.ZERO) < 0) {
-			throw new IllegalArgumentException("Gross income must be non-negative");
-		}
+    /**
+     * The sickness social security contribution.
+     */
+    private final BigDecimal sicknessSocialSecurity;
 
-		BigDecimal socialSecurity = grossIncome.multiply(TaxRates.SOCIAL_SECURITY_RATE)
-				.divide(TaxRates.PERCENTAGE_DIVISOR, TaxConstants.CURRENCY_SCALE, TaxConstants.CURRENCY_ROUNDING_MODE);
-		BigDecimal healthSocialSecurity = grossIncome.multiply(TaxRates.HEALTH_SOCIAL_SECURITY_RATE)
-				.divide(TaxRates.PERCENTAGE_DIVISOR, TaxConstants.CURRENCY_SCALE, TaxConstants.CURRENCY_ROUNDING_MODE);
-		BigDecimal sicknessSocialSecurity = grossIncome.multiply(TaxRates.SICKNESS_SOCIAL_SECURITY_RATE)
-				.divide(TaxRates.PERCENTAGE_DIVISOR, TaxConstants.CURRENCY_SCALE, TaxConstants.CURRENCY_ROUNDING_MODE);
+    /**
+     * Creates social contributions with specified values.
+     *
+     * @param socialSecurityValue the social security contribution
+     * @param healthSocialSecurityValue the health social security
+     *                                  contribution
+     * @param sicknessSocialSecurityValue the sickness social security
+     *                                    contribution
+     */
+    private SocialContributions(final BigDecimal socialSecurityValue,
+                                final BigDecimal healthSocialSecurityValue,
+                                final BigDecimal sicknessSocialSecurityValue) {
+        this.socialSecurity = socialSecurityValue;
+        this.healthSocialSecurity = healthSocialSecurityValue;
+        this.sicknessSocialSecurity = sicknessSocialSecurityValue;
+    }
 
-		return new SocialContributions(socialSecurity, healthSocialSecurity, sicknessSocialSecurity);
-	}
+    /**
+     * Calculates social contributions from gross income.
+     *
+     * @param grossIncome the gross income
+     * @return calculated social contributions
+     * @throws IllegalArgumentException if grossIncome is null or negative
+     */
+    public static SocialContributions calculate(
+            final BigDecimal grossIncome) {
+        if (grossIncome == null
+                || grossIncome.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException(
+                    "Gross income must be non-negative");
+        }
 
-	/**
-	 * Gets the total of all social contributions.
-	 *
-	 * @return total social contributions
-	 */
-	public BigDecimal getTotal() {
-		return socialSecurity.add(healthSocialSecurity).add(sicknessSocialSecurity);
-	}
+        BigDecimal socialSecurityCalculated = grossIncome
+                .multiply(TaxRates.SOCIAL_SECURITY_RATE)
+                .divide(TaxRates.PERCENTAGE_DIVISOR,
+                        TaxConstants.CURRENCY_SCALE,
+                        TaxConstants.CURRENCY_ROUNDING_MODE);
+        BigDecimal healthSocialSecurityCalculated = grossIncome
+                .multiply(TaxRates.HEALTH_SOCIAL_SECURITY_RATE)
+                .divide(TaxRates.PERCENTAGE_DIVISOR,
+                        TaxConstants.CURRENCY_SCALE,
+                        TaxConstants.CURRENCY_ROUNDING_MODE);
+        BigDecimal sicknessSocialSecurityCalculated = grossIncome
+                .multiply(TaxRates.SICKNESS_SOCIAL_SECURITY_RATE)
+                .divide(TaxRates.PERCENTAGE_DIVISOR,
+                        TaxConstants.CURRENCY_SCALE,
+                        TaxConstants.CURRENCY_ROUNDING_MODE);
 
-	/**
-	 * Gets the income after social contributions deduction.
-	 *
-	 * @param grossIncome the gross income
-	 * @return income after social contributions
-	 */
-	public BigDecimal getIncomeAfterContributions(final BigDecimal grossIncome) {
-		return grossIncome.subtract(getTotal());
-	}
+        return new SocialContributions(socialSecurityCalculated,
+                healthSocialSecurityCalculated,
+                sicknessSocialSecurityCalculated);
+    }
+
+    /**
+     * Gets the total of all social contributions.
+     *
+     * @return total social contributions
+     */
+    public BigDecimal getTotal() {
+        return socialSecurity.add(healthSocialSecurity)
+                .add(sicknessSocialSecurity);
+    }
+
+    /**
+     * Gets the income after social contributions deduction.
+     *
+     * @param grossIncome the gross income
+     * @return income after social contributions
+     */
+    public BigDecimal getIncomeAfterContributions(
+            final BigDecimal grossIncome) {
+        return grossIncome.subtract(getTotal());
+    }
 
 }

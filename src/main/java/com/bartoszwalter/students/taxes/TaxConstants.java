@@ -19,7 +19,8 @@ public final class TaxConstants {
     /**
      * Default rounding mode for currency calculations.
      */
-    public static final RoundingMode CURRENCY_ROUNDING_MODE = RoundingMode.HALF_UP;
+    public static final RoundingMode CURRENCY_ROUNDING_MODE =
+            RoundingMode.HALF_UP;
 
     /**
      * Rounding mode for flooring values.
